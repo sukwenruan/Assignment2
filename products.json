@@ -1,0 +1,50 @@
+[
+	{
+		"name": "Midsummer Huggies",
+		"price": 48.00,
+		"image": "./images/earrings.midsummer.jpg",
+		"qty_available": 300, 
+		"qty_sold": 0,
+		"product_description": "14k gold filled 12mm huggie hoops with 6mm mother of pearl star charms."
+	},
+	{
+		"name": "Butterfly Pearl Bar Studs",
+		"price": 48.00,
+		"image": "./images/earrings.butterfly.jpg",
+		"qty_available": 224,
+		"qty_sold": 0,
+		"product_description": "14k gold filled bar studs with 8mm mother of pearl butterflies."
+	},
+    {
+		"name": "Ruby & Flower Necklace",
+		"price": 60.00,
+		"image": "./images/necklace.ruby.jpg",
+		"qty_available": 175,
+		"qty_sold": 0,
+		"product_description": "14k gold-filled necklace with a 5mm flower-stamped pendant and ruby charm."
+	},
+    {
+		"name": "Sakura Opal Necklace",
+		"price": 58.00,
+		"image": "./images/necklace.sakura.jpg",
+		"qty_available": 188,
+		"qty_sold": 0,
+		"product_description": "14k gold filled necklace with a 3mm sakura flower charm and pink opal."
+	},
+    {
+		"name": "Jade Sunrise Bracelet",
+		"price": 65.00,
+		"image": "./images/bracelet.jade.jpg",
+		"qty_available": 163,
+		"qty_sold": 0,
+		"product_description": "14k gold filled bracelet with a 5mm natural jade stone."
+	},
+    {
+		"name": "Pearl Rolo Bracelet",
+		"price": 50.00,
+		"image": "./images/bracelet.pearl.jpg",
+		"qty_available": 152,
+		"qty_sold": 0,
+		"product_description": "14k gold filled dainty bracelet with a small 4mm freshwater pearl."
+	}
+]
