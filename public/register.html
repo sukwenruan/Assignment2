@@ -1,10 +1,10 @@
-<!--login.html-->
+<!--register.html-->
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page - Lovelly!</title>
+    <title>Register Account - Lovelly</title>
     
     <!--icon on tab-->
     <link rel="apple-touch-icon" sizes="180x180" href="./favicon_io/apple-touch-icon.png">
@@ -29,36 +29,39 @@
 
 </head>
 <body>
-
-    <!--navigation bar & header (Bootstrap)-->
-
+    
+    <!--header-->
     <div class="jumbotron text-center" style="margin-bottom:0">
         <h1>Lovelly ❀ </h1>
-    </div>   
+    </div>  
+    <br>
+    <br>
 
-    <!-----------------login form---------------->
-    <form name="login" action="/login" method=POST>
-        <br>
-        <br>
-    
-        <div id="loginPage">
+        <!----------------------registration form--------------------------->
+        <form id="register_form" name="register_form" action="/register" method="POST">
+            <div class="registerPage">
             
-            <!-- form elements will be added dynamically using JavaScript -->
+                <!-- form elements will be added dynamically using JavaScript -->
+                
+            </div>
 
-        </div>
+                <!--register button-->
+                <input type="submit" class="button" name="register_button" id="register_button" value=Register></input>
+               <br>
+               <br>
+               <br>
 
-         <!--login button-->
-        <input type="submit" class="button" value="Login" id="loginButton"><br><br>
+                <!--login-->
+                <p>Already have an account?</p>
 
-         <!--register button-->
-        <p>New user?</p>
-            <input type="button" class="button" id="registerButton" value="Register here" onclick="window.location.href = './register.html' + document.location.search;">
-        </p>
-        
-    </form>
+                <!--login button-->
+                <input type="button" class="button" id="loginhere_button" value="Login here" onclick="window.location.href = './login.html' + document.location.search;"></input>
+                
 
+        </form>  
 </body>
-    
-    <script src="/login.js" type="module"></script>
+
+    <!--JavaScript file for register page-->
+    <script src="/register.js" type="module"></script>
 
 </html>

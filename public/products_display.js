@@ -7,10 +7,10 @@ for (let i = 0; i < products.length; i++) {
             <h2>${products[i].name}</h2>
             <h2>$${(products[i].price).toFixed(2)}</h2>
             <img src="${products[i].image}" class="img-thumbnail">
-            <p style="padding: 7px; margin: 0">Available: ${products[i].qty_available}</p>
-            <p style="padding: 7px; margin: 0">Sold: ${products[i].qty_sold}</p>
+            <p style="padding: 7px; margin: 0; font-size: 13px;">Available: ${products[i].qty_available}</p>
+            <p style="padding: 7px; margin: 0; font-size: 13px;">Sold: ${products[i].qty_sold}</p>
 
-            <label for="quantity_textbox_${i} id="quantity${i}_label" style="padding: 15px;" class="quantity-input">Quantity Desired</label>
+            <label for="quantity_textbox_${i} id="quantity${i}_label" style="padding: 15px; font-size: 14px;" class="quantity-input">Quantity Desired</label>
             <input type="text" name="quantity${[i]}" id="quantity_textbox${[i]}" onchange="validateTextbox(this)">
 
             <div id="quantity${[i]}_error" style="color: red;"></div>

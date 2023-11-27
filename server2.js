@@ -8,6 +8,7 @@ const app = express();
 
 //imports querystring as variable qs
 const qs = require('querystring');
+
 let qString;
 
 //load file system module
@@ -41,13 +42,17 @@ __dirname represents the directory of the current module (where server.js is loc
 __dirname + "./products.json" specifies the location of products.json
 */
 const products = require(__dirname + "/products.json");
+
 // Define a route for handling a GET request to a path that matches "./products.js"
-app.get('/products.js', function(request, response, next) {  
+app.get('/products.js', function(request, response, next) {
+    
 	// Send the response as JS
 	response.type('.js');
+	
 	// Create a JS string (products_str) that contains data loaded from the products.json file
 	// Convert the JS string into a JSON string and embed it within variable products
 	const products_str = `let products = ${JSON.stringify(products)};`;
+	
 	// Send the string in response to the GET request
 	response.send(products_str);
 });
@@ -69,6 +74,7 @@ app.post("/purchase", function (request, response) {
     qString = qs.stringify(POST);
 
     let has_qty = false;
+
     let errObj = {};
 
     //loop through each quantity for products
@@ -139,10 +145,11 @@ function isNonNegInt(q, returnErrors = false) {
     return (returnErrors ? errors : (errors.length == 0));
 };
 
-/*---------------------------------------LOGIN---------------------------------------------*/
+/*-----------------------------LOGIN------------------------------------*/
 app.post("/login", function (request, response) {
 
     let POST = request.body;
+
     //empty basket of errors
     let errors = {}; 
     //string for messages
@@ -175,27 +182,29 @@ app.post("/login", function (request, response) {
             request.query.name = users_reg_data[username].name;
         }
     }
+
     // if username is incorrect, show 'Invalid Username' message 
     else { 
         incorrectLogin_str = 'The username is invalid!';
         console.log(errors);
         request.query.username = username;
     }
+    
     //make username sticky when there's an error
     //redirect to invoice with message
     response.redirect(`./login.html?loginMessage=${incorrectLogin_str}&wrong_pass=${username}`);
 });
 
-/*-----------------------------------------REGISTER-----------------------------------------*/
+// --------------- registration page ------------------------
 app.post("/register", function (request, response) {
 
     console.log(request.body);
     //empty basket of errors
-    let errors = {};
+    var errors = {};
     //string for message display
-    let loginMessage_str = '';
-    // check if new name is lowercase
-    let register_user = request.body.username.toLowerCase();
+    var loginMessage_str = '';
+    // check is new name is lowercase
+    var register_user = request.body.username.toLowerCase();
     // validate name, username, email, and pw
     errors['name'] = [];
     errors['username'] = [];
@@ -208,7 +217,7 @@ app.post("/register", function (request, response) {
     }
     // error message when name doesn't follow character guidelines
     else {
-        errors['name'].push('Please follow the format FirstName LastName! (ex. Sukwen Ruan)');
+        errors['name'].push('Please follow the format for names! (ex. Tina Vo)');
     }
 
     // error message when the name is empty
@@ -230,7 +239,7 @@ app.post("/register", function (request, response) {
     if (/^[0-9a-zA-Z]+$/.test(request.body.username)) {
     }
     else {
-        errors['username'].push('Please use only letters and numbers for your username.');
+        errors['username'].push('Use only letters and numbers for your username.');
     }
 
     // make username a minimum of 4 characters and max of 10
@@ -242,12 +251,12 @@ app.post("/register", function (request, response) {
     if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(request.body.email)) {
     }
     else {
-        errors['email'].push('Please use a valid format email format (ex. sukwenruan@gmail.com).');
+        errors['email'].push('Please use a valid format email format (ex. tinavo@gmail.com)');
     }
 
     // make password a minimum of six characters
-    if (request.body.password.length > 16 || request.body.password.length < 10) {
-        errors['password'].push('Your password must be between 10-16 characters.');
+    if (request.body.password.length < 6) {
+        errors['password'].push('Your password is too short (Please use at least 6 characters).');
     }
 
     // check to see if the passwords match
@@ -262,15 +271,15 @@ app.post("/register", function (request, response) {
 
 
     // remember user information given no errors (save info)
-    let num_errors = 0;
-    for (let err in errors) {
+    var num_errors = 0;
+    for (err in errors) {
         num_errors += errors[err].length;
     }
     if (num_errors == 0) {
         POST = request.body;
         
         // remember user information if there are no errors
-        let username = POST["username"];
+        var username = POST["username"];
         // empty basket of future usernames
         users_reg_data[username] = {};
         //request name, password, and email
@@ -284,7 +293,7 @@ app.post("/register", function (request, response) {
         request.query.name = users_reg_data[request.query.username].name; 
         request.query.email = users_reg_data[request.query.username].email; // define email
         let more_qString = qs.stringify(request.query); // new query to add to response
-
+        
         //message display after successful registration
         loginMessage_str = `Welcome ${username}, you are registered!`;
         //redirect to invoice with message
@@ -298,16 +307,12 @@ app.post("/register", function (request, response) {
         //errors object for error message (search params)
         request.body.errors_obj = JSON.stringify(errors);
         
-        request.query.errors_obj = request.body.errors_obj;
         //make sticky 
-        request.query.StickyName = request.body.name;
-        request.query.StickyUsername = request.body.username;
-        request.query.StickyEmail = request.body.email;
-        
+        request.query.StickyUsername = register_user.username;
+        request.query.StickyName = register_user.name;
+        request.query.StickyEmail = register_user.email;
         // redirect to register.html
-        //response.redirect("./register.html?" + qs.stringify(request.body)); 
-        response.redirect("./register.html?" + qs.stringify(request.query)); 
-        //response.redirect("./register.html?" + register_qString); 
+        response.redirect("./register.html?" + qs.stringify(request.body)); 
 
     }
 });

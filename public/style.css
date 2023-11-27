@@ -3,20 +3,19 @@
 h1 {
     font-family: "Playfair Display", sans-serif;
     text-align: center;
-    font-size: 55px;
+    font-size: 40px;
     color: rgb(139, 128, 128)
 }
 
 h3 {
-    font-size: 20px;
+    font-size: 15px;
 }
 
 body {
     font-family: "Open Sans", sans-serif;
     text-align: center;
     background-image: url('./images/background.jpg');
-    background-size: cover;
-    
+    background-size: cover;    
 }
 
 /*nav bar/header styling*/
@@ -29,16 +28,15 @@ body {
     background-color: rgb(203, 202, 202) !important;
   }
   
-  
 /*products display styling]*/
 img {
-    width: 305px;
-    height: 305px;
+    width: 205px;
+    height: 205px;
     margin: 0 auto;
 }
 
 h2 {
-    font-size: 18px;
+    font-size: 15px;
     padding-top: 15px;
     white-space: nowrap;
 }
@@ -53,7 +51,6 @@ h2 {
     grid-template-columns: repeat(3, 2fr);
     justify-content: center;
     align-items: center;
-    padding: 30px;
   }
   
 /*purchase button styling*/
@@ -74,7 +71,6 @@ h2 {
  
 /*invoice table styling*/
 table {
-    width: 70%;
     text-align: center;
     margin: auto;
     margin-top: 15px;
@@ -90,3 +86,27 @@ th {
     text-align: center;
 }
 
+/*login & register page styling*/
+
+input {
+    border: none;
+    border-bottom: 1px solid;
+    width: 30%;
+    font-size: 16p
+  }
+
+#loginButton, #register_button {
+    background-color: #9AA0A8;
+    color: #fff;
+    font-size: 20px;
+    border: none;   
+  }
+
+  #registerButton, #loginhere_button, #logout-btn {
+    background: rgb(203, 202, 202);
+    border: none;
+  }
+
+  .registerPage {
+    font-size: 15px;
+  }
