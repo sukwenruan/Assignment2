@@ -65,7 +65,7 @@ let params = (new URL(document.location)).searchParams;
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         
-        // Set sticky values for name, username, and email
+        //set sticky values for name, username, and email
         const stickyName = urlParams.get('StickyName');
         const stickyUsername = urlParams.get('StickyUsername');
         const stickyEmail = urlParams.get('StickyEmail');

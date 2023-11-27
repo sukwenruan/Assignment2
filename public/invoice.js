@@ -1,42 +1,22 @@
 //invoice.js 
 
 // Get the URL
-let params = (new URL(document.location)).searchParams; // stop user from going to the invoice if not logged in
-  if (params.has('username') == false) { // check if user is logged in or registered
-    alert('Please log in or register first!');
-    location.href = './products_display.html'; //redirect to products_display after alert message
-    window.stop;
+let params = (new URL(document.location)).searchParams; 
+// stop user from going to the invoice if not logged in
+// check if user is logged in or registered. if not, show alert message
+if (params.has('username') == false) { 
+  alert('Please log in or register first!');
+  //redirect to products_display after alert message
+  location.href = './products_display.html'; 
+  window.stop;
   }
-
-  let quantities = [];
-  let user_data = './user_data.json';
-  // process invoice after submit
-
-  // invoice loads after valid quantity is inserted
-  if (params.has('checkout_button')) { //searches and gets the checkout button 
-    for (i = 0; i < products_array.length; i++) {
-      if (params.has(`quantity${i}`)) {
-        execute_quantity = params.get(`quantity${i}`);
-        quantities[i] = execute_quantity;
-      }
-    }
-  } else {
-    document.write('invalid form'); // error msg when form is accessed without submission
-  }
-  console.log(quantities);
-
 
 //personalization to thank buyer with their name and email-->
-  document.querySelector('#invoiceMessage').innerHTML += `
-  <br>
-  <br>
-
-  <h2 style="font-size:20px; font-weight: bolder;">${params.get('name')}, thank you for your order!</h2>
-  
-  <h2>Your receipt has been sent to ${params.get('email')}</h2>
+document.querySelector('#invoiceMessage').innerHTML += `
+<br><br>
+<h2 style="font-size:20px; font-weight: bolder;">${params.get('name')}, thank you for your order!</h2>
+<h2>Your receipt has been sent to ${params.get('email')}</h2>
 `;
-
-
 
 //initialize variables
 let subtotal = 0;
@@ -114,9 +94,8 @@ document.querySelector('#totalCells').innerHTML += `
  //display alert as a response when for loops from server.js are executed depending on the quantity inserted
  window.onload = function () {
     let params = (new URL(document.location)).searchParams;
-    //if errorMessage is in qry string then put up alert with error message
+    //if error message is in qry string then put up alert with error message
     if (params.has("loginMessage")) {
       alert(params.get("loginMessage"));
     }
   }
-  

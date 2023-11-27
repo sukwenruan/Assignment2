@@ -209,44 +209,36 @@ app.post("/register", function (request, response) {
     if (request.body.name == "") {
         errors['name'].push('The name is invalid. Please insert a name.');
     }
-
-    // character limitations (only letters)
+    // character limitations (only letters) (ChatGPT)
     if (/^[A-Za-z]+ [A-Za-z]+$/.test(request.body.name)) {
     } else {  // error message when name doesn't follow character guidelines
         errors['name'].push('Please follow the format FirstName LastName! (ex. Sukwen Ruan)');
     }
-
     // the users full name should only allow letters, no more than 30 characters
     if (request.body.name.length > 30) { // execute errors if the name surpassed limit
         errors['name'].push('The name is too long. Insert a name less than 30 characters.');
     }
-
     // error for when username is already taken
     if (typeof users_reg_data[register_user] != 'undefined') { 
         errors['username'].push('Username is taken. Please use a different username.');
     }
-
-    // Check if email is already registered
+    // check if email is already registered
     if (Object.values(users_reg_data).some(user => user.email === register_email)) {
         errors['email'].push('This email is already registered. Please use a different email.');
     }
-
-    // character limitations for username - only numbers and letters allowed (case insensitive)
+    // character limitations for username (ChatGPT) - only numbers and letters allowed (case insensitive)
     if (/^[0-9a-zA-Z]+$/.test(request.body.username)) {
     } else {
         errors['username'].push('Please use only letters and numbers for your username.');
     }
-
     // make minimum and maximum characters for username
     if (request.body.username.length > 25 || request.body.username.length < 4) {
         errors['username'].push('Your username must contain 4-25 characters.');
     }
-
-    // email limitations 
+    // email limitations (ChatGPT)
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(request.body.email)) {
         errors['email'].push('Please use a valid format email format (ex. sukwenruan@gmail.com).');
     }
-
     // password is invalidated with a space
     if (request.body.password.includes(' ')) {
         errors['password'].push('Password cannot contain space characters.');
@@ -255,26 +247,23 @@ app.post("/register", function (request, response) {
     if (request.body.password.length > 16 || request.body.password.length < 10) {
         errors['password'].push('Your password must be between 10-16 characters.');
     }
-
     // makes password have at least one number
     if (!/\d/.test(request.body.password)) {
         errors['password'].push('Your password must contain at least one number.');
     }
-
-    // makes password have at least one special character
+    // makes password have at least one special character (ChatGPT)
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(request.body.password)) {
         errors['password'].push('Your password must contain at least one special character.');
     }
-
     // check to see if the passwords match
     if (request.body.password != request.body.confirm_password) {
         errors['confirm_password'].push('Your password does not match.');
     }
 
-      // request name, username, and email
-      request.query.name = request.body.name;
-      request.query.username = request.body.username;
-      request.query.email = request.body.email;
+    // request name, username, and email
+    request.query.name = request.body.name;
+    request.query.username = request.body.username;
+    request.query.email = request.body.email;
 
 
     // remember user information given no errors (save info)
@@ -323,7 +312,6 @@ app.post("/register", function (request, response) {
         // redirect to register.html
         //response.redirect("./register.html?" + qs.stringify(request.body)); 
         response.redirect("./register.html?" + qs.stringify(request.query)); 
-        //response.redirect("./register.html?" + register_qString); 
 
     }
 });

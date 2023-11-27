@@ -100,13 +100,13 @@ input {
     color: #fff;
     font-size: 20px;
     border: none;   
-  }
+}
 
-  #registerButton, #loginhere_button, #logout-btn {
+#registerButton, #loginhere_button, #logout-btn {
     background: rgb(203, 202, 202);
     border: none;
-  }
+}
 
-  .registerPage {
+.registerPage {
     font-size: 15px;
-  }
+}
