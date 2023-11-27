@@ -80,7 +80,7 @@ let params = (new URL(document.location)).searchParams;
 //window.onload makes the code run after page is fully loaded
 window.onload = function() {
 
-    //referenced Chet (aka ChatGPT)
+    //referenced ChatGPT
     const errMsgElement = document.getElementById('errMsg');
     
     //if error and inputErr is found in parameters, display error message
