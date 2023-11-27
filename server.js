@@ -238,16 +238,28 @@ app.post("/register", function (request, response) {
         errors['username'].push('Your username must contain 4-10 characters.');
     }
 
-    // email limitations -> https://www.w3resource.com/javascript/form/email-validation.php)
-    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(request.body.email)) {
-    }
-    else {
+    // email limitations 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(request.body.email)) {
         errors['email'].push('Please use a valid format email format (ex. sukwenruan@gmail.com).');
     }
 
+    // password is invalidated with a space
+    if (request.body.password.includes(' ')) {
+        errors['password'].push('Password cannot contain space characters.');
+    }
     // make password a minimum of six characters
     if (request.body.password.length > 16 || request.body.password.length < 10) {
         errors['password'].push('Your password must be between 10-16 characters.');
+    }
+
+    // makes password have at least one number
+    if (!/\d/.test(request.body.password)) {
+        errors['password'].push('Your password must contain at least one number.');
+    }
+
+    // makes password have at least one special character
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(request.body.password)) {
+        errors['password'].push('Your password must contain at least one special character.');
     }
 
     // check to see if the passwords match
