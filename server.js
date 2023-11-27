@@ -196,6 +196,8 @@ app.post("/register", function (request, response) {
     let loginMessage_str = '';
     // check if new name is lowercase
     let register_user = request.body.username.toLowerCase();
+    let register_email = request.body.email.toLowerCase();
+
     // validate name, username, email, and pw
     errors['name'] = [];
     errors['username'] = [];
@@ -205,9 +207,7 @@ app.post("/register", function (request, response) {
 
     // character limitations (only letters)
     if (/^[A-Za-z]+ [A-Za-z]+$/.test(request.body.name)) {
-    }
-    // error message when name doesn't follow character guidelines
-    else {
+    } else {  // error message when name doesn't follow character guidelines
         errors['name'].push('Please follow the format FirstName LastName! (ex. Sukwen Ruan)');
     }
 
@@ -223,19 +223,23 @@ app.post("/register", function (request, response) {
 
     // error for when username is already taken
     if (typeof users_reg_data[register_user] != 'undefined') { 
-        errors['username'].push('Username is taken.');
+        errors['username'].push('Username is taken. Please use a different one');
     }
 
-    // character limitations for username - only numbers and letters allowed (insensitive)
-    if (/^[0-9a-zA-Z]+$/.test(request.body.username)) {
+    // Check if email is already registered
+    if (Object.values(users_reg_data).some(user => user.email === register_email)) {
+        errors['email'].push('This email is already registered. Please use a different email.');
     }
-    else {
+
+    // character limitations for username - only numbers and letters allowed (case insensitive)
+    if (/^[0-9a-zA-Z]+$/.test(request.body.username)) {
+    } else {
         errors['username'].push('Please use only letters and numbers for your username.');
     }
 
-    // make username a minimum of 4 characters and max of 10
-    if (request.body.username.length > 10 || request.body.username.length < 4) {
-        errors['username'].push('Your username must contain 4-10 characters.');
+    // make minimum and maximum characters for username
+    if (request.body.username.length > 25 || request.body.username.length < 4) {
+        errors['username'].push('Your username must contain 4-25 characters.');
     }
 
     // email limitations 
@@ -326,6 +330,5 @@ app.post("/register", function (request, response) {
 
 // Route all other GET requests to serve static files from a directory named "public"
 app.use(express.static(__dirname + '/public'));
-
 // Start the server; listen on port 8080 for incoming HTTP requests
 app.listen(8080, () => console.log(`listening on port 8080`));

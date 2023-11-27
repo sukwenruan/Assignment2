@@ -42,14 +42,6 @@ document.querySelector('.registerPage').innerHTML += `
 
 `;
 
-
-
-
-
-
-
-
-
 //display alert as a response when for loops from server.js are executed depending on the quantity inserted
 window.onload = function () {
     let params = (new URL(document.location)).searchParams;
