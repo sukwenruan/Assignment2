@@ -205,25 +205,25 @@ app.post("/register", function (request, response) {
     errors['password'] = [];
     errors['confirm_password'] = [];
 
+    // error message when the name is empty
+    if (request.body.name == "") {
+        errors['name'].push('The name is invalid. Please insert a name.');
+    }
+
     // character limitations (only letters)
     if (/^[A-Za-z]+ [A-Za-z]+$/.test(request.body.name)) {
     } else {  // error message when name doesn't follow character guidelines
         errors['name'].push('Please follow the format FirstName LastName! (ex. Sukwen Ruan)');
     }
 
-    // error message when the name is empty
-    if (request.body.name == "") {
-        errors['name'].push('The name is invalid. Please insert a name.');
-    }
-
     // the users full name should only allow letters, no more than 30 characters
     if (request.body.name.length > 30) { // execute errors if the name surpassed limit
-        errors['name'].push('Name is too long. Insert a name less than 30 characters.');
+        errors['name'].push('The name is too long. Insert a name less than 30 characters.');
     }
 
     // error for when username is already taken
     if (typeof users_reg_data[register_user] != 'undefined') { 
-        errors['username'].push('Username is taken. Please use a different one');
+        errors['username'].push('Username is taken. Please use a different username.');
     }
 
     // Check if email is already registered
@@ -251,7 +251,7 @@ app.post("/register", function (request, response) {
     if (request.body.password.includes(' ')) {
         errors['password'].push('Password cannot contain space characters.');
     }
-    // make password a minimum of six characters
+    // make minimum and maximum characters for password
     if (request.body.password.length > 16 || request.body.password.length < 10) {
         errors['password'].push('Your password must be between 10-16 characters.');
     }
