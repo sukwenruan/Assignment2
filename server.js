@@ -64,7 +64,6 @@ app.post("/purchase", function (request, response) {
 
     //retrieve quantities from form data
     let POST = request.body;
-
     // string the query together
     qString = qs.stringify(POST);
 
@@ -257,7 +256,7 @@ app.post("/register", function (request, response) {
     }
     // check to see if the passwords match
     if (request.body.password != request.body.confirm_password) {
-        errors['confirm_password'].push('Your password does not match.');
+        errors['confirm_password'].push('Your passwords do not match.');
     }
 
     // request name, username, and email
