@@ -101,7 +101,7 @@ input {
     border: none;   
 }
 
-#registerButton, #loginhere_button, #logout-btn {
+#registerButton, #loginhere_button, #complete-btn {
     background: rgb(203, 202, 202);
     border: none;
 }

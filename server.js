@@ -58,7 +58,7 @@ products.forEach((prod, i) => {prod.qty_sold = 0});
 //set up middleware to parse incoming requests with URL-encoding
 app.use(express.urlencoded({ extended: true }));
 
-/*-----------------------------PURCHASE (referenced Sal's)------------------------------------*/
+//---------------------_--------PURCHASE (referenced Sal's)------------------------------------
 //handles POST request to /purchase when form is submitted
 app.post("/purchase", function (request, response) {
 
@@ -138,10 +138,9 @@ function isNonNegInt(q, returnErrors = false) {
     return (returnErrors ? errors : (errors.length == 0));
 };
 
-/*---------------------------------------LOGIN---------------------------------------------*/
+//----------------------------------------LOGIN---------------------------------------------
 app.post("/login", function (request, response) {
 
-    let POST = request.body;
     //empty basket of errors
     let errors = {}; 
     //string for messages
@@ -150,17 +149,23 @@ app.post("/login", function (request, response) {
    
     // validate username and password
     console.log(request.query);
-    username = request.body.username.toLowerCase(); // usernames are formatted as lowercase
-
-    if (typeof users_reg_data[username] != 'undefined') { // username and password shouldn't be undefined
+    // format usernames as lowercase
+    username = request.body.username.toLowerCase();
+    
+    // username and password shouldn't be undefined
+    if (typeof users_reg_data[username] != 'undefined') { 
+        // go to invoice if username and password are correct
         if (users_reg_data[username].password == request.body.password) {
             request.query.username = username;
             console.log(users_reg_data[request.query.username].name);
-            request.query.name = users_reg_data[request.query.username].name; // go to invoice if username and password are correct
-            request.query.email = users_reg_data[request.query.username].email; // put email in query
-            let more_qString = qs.stringify(request.query); // generate new query
+            // retrieve name associated with the provided username from registration data
+            request.query.name = users_reg_data[request.query.username].name; 
+            request.query.email = users_reg_data[request.query.username].email; 
+            // generate new query
+            let more_qString = qs.stringify(request.query); 
 
-            loginMessage_str = `Welcome ${username}, you are logged in!`; //message that displays after login
+            //after successful login, display welcome message and redirect to invoice 
+            loginMessage_str = `Welcome ${username}, you are logged in!`; 
             response.redirect(`./invoice.html?loginMessage=${loginMessage_str}&` + qString + '&' + more_qString);
 
             return;
@@ -181,11 +186,10 @@ app.post("/login", function (request, response) {
         request.query.username = username;
     }
     //make username sticky when there's an error
-    //redirect to invoice with message
     response.redirect(`./login.html?loginMessage=${incorrectLogin_str}&wrong_pass=${username}`);
 });
 
-/*-----------------------------------------REGISTER-----------------------------------------*/
+//-----------------------------------------REGISTER-----------------------------------------
 app.post("/register", function (request, response) {
 
     console.log(request.body);
@@ -197,14 +201,14 @@ app.post("/register", function (request, response) {
     let register_user = request.body.username.toLowerCase();
     let register_email = request.body.email.toLowerCase();
 
-    // validate name, username, email, and pw
+    // validate name, username, email, and password
     errors['name'] = [];
     errors['username'] = [];
     errors['email'] = [];
     errors['password'] = [];
     errors['confirm_password'] = [];
 
-    // error message when the name is empty
+    // display error message when the name is empty
     if (request.body.name == "") {
         errors['name'].push('The name is invalid. Please insert a name.');
     }
@@ -234,7 +238,7 @@ app.post("/register", function (request, response) {
     if (request.body.username.length > 25 || request.body.username.length < 4) {
         errors['username'].push('Your username must contain 4-25 characters.');
     }
-    // email limitations (ChatGPT)
+    // limit email to be in X@Y.Z format (ChatGPT)
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(request.body.email)) {
         errors['email'].push('Please use a valid format email format (ex. sukwenruan@gmail.com).');
     }
@@ -246,11 +250,11 @@ app.post("/register", function (request, response) {
     if (request.body.password.length > 16 || request.body.password.length < 10) {
         errors['password'].push('Your password must be between 10-16 characters.');
     }
-    // makes password have at least one number
+    // make password have at least one number
     if (!/\d/.test(request.body.password)) {
         errors['password'].push('Your password must contain at least one number.');
     }
-    // makes password have at least one special character (ChatGPT)
+    // make password have at least one special character (ChatGPT)
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(request.body.password)) {
         errors['password'].push('Your password must contain at least one special character.');
     }
@@ -264,8 +268,7 @@ app.post("/register", function (request, response) {
     request.query.username = request.body.username;
     request.query.email = request.body.email;
 
-
-    // remember user information given no errors (save info)
+    // remember user information given no errors
     let num_errors = 0;
     for (let err in errors) {
         num_errors += errors[err].length;
@@ -285,8 +288,9 @@ app.post("/register", function (request, response) {
         // stringify user's information
         data = JSON.stringify(users_reg_data); 
         fs.writeFileSync(user_data, data, "utf-8");
+        // retrieve name associated with the provided username from registration data
         request.query.name = users_reg_data[request.query.username].name; 
-        request.query.email = users_reg_data[request.query.username].email; // define email
+        request.query.email = users_reg_data[request.query.username].email; 
         let more_qString = qs.stringify(request.query); // new query to add to response
 
         //message display after successful registration
@@ -303,15 +307,13 @@ app.post("/register", function (request, response) {
         request.body.errors_obj = JSON.stringify(errors);
         
         request.query.errors_obj = request.body.errors_obj;
-        //make sticky 
+        //make only name, username, and email sticky 
         request.query.StickyName = request.body.name;
         request.query.StickyUsername = request.body.username;
         request.query.StickyEmail = request.body.email;
         
         // redirect to register.html
-        //response.redirect("./register.html?" + qs.stringify(request.body)); 
         response.redirect("./register.html?" + qs.stringify(request.query)); 
-
     }
 });
 
