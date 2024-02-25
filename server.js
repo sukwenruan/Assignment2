@@ -13,6 +13,9 @@ let qString;
 //load file system module
 let fs = require('fs')
 
+// Import the crypto library for password
+const crypto = require('crypto');
+
 // save user_data.json to user_data variable
 let user_data = './user_data.json'; // get data from user_data.json
 
@@ -154,8 +157,12 @@ app.post("/login", function (request, response) {
     
     // username and password shouldn't be undefined
     if (typeof users_reg_data[username] != 'undefined') { 
+        
+        // compute hash of the entered password using the hashPassword function
+        const enteredPasswordHash = hashPassword(request.body.password);
         // go to invoice if username and password are correct
-        if (users_reg_data[username].password == request.body.password) {
+        // checks if the password matches the stored password hash for the given username
+        if (users_reg_data[username].password === enteredPasswordHash) {
             request.query.username = username;
             console.log(users_reg_data[request.query.username].name);
             // retrieve name associated with the provided username from registration data
@@ -278,12 +285,17 @@ app.post("/register", function (request, response) {
         
         // remember user information if there are no errors
         let username = POST["username"];
+
         // empty basket of future usernames
         users_reg_data[username] = {};
         //request name, password, and email
         users_reg_data[username].name = request.body.name;
         users_reg_data[username].password = request.body.password;
         users_reg_data[username].email = request.body.email;
+
+        // encrypt password before saving to user_data.json
+        const passwordHash = hashPassword(request.body.password);
+        users_reg_data[username].password = passwordHash;
 
         // stringify user's information
         data = JSON.stringify(users_reg_data); 
@@ -321,3 +333,10 @@ app.post("/register", function (request, response) {
 app.use(express.static(__dirname + '/public'));
 // Start the server; listen on port 8080 for incoming HTTP requests
 app.listen(8080, () => console.log(`listening on port 8080`));
+
+// function to hash passwords using SHA-256 (for encryption)
+function hashPassword(password) {
+    const hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+}
